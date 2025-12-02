@@ -1,0 +1,33 @@
+name: Update README ⭐
+on:
+  #schedule:
+  #  - cron: "56 */4 1-25 12 *"                     # Every 4 hours from December 1st untill 25th
+  push:
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: k2bd/advent-readme-stars@v1
+        with:
+          userId: ${{ secrets.AOC_USERID }}
+          sessionCookie: ${{ secrets.AOC_SESSION }}
+      - uses: joblo2213/aoc-badges-action@v3
+        with:
+          userid: ${{ secrets.AOC_USERID }}     # your user id, see setup on how to obtain
+          session: ${{ secrets.AOC_SESSION }}    # secret containing session code, see setup on how to obtain
+          
+#         Optional inputs:
+#         
+#         year: 2021                                                                                     # The year for which stats should be retrieved
+#         leaderboard: 'https://adventofcode.com/2020/leaderboard/private/view/00000.json'               # The url of the leaderboard from witch the data is fetched. Typically your private leaderboard.
+#         file: 'README.md'                                                                              # The file that contains the badges
+#         dayRegex: '(?<=https:\/\/img\.shields\.io\/badge\/day%20📅-)[0-9]+(?=-blue)'                   # Regular expression that finds the content of the day badge in your file.
+#         starsRegex: '(?<=https:\/\/img\.shields\.io\/badge\/stars%20⭐-)[0-9]+(?=-yellow)'             # Regular expression that finds the content of the stars badge in your file.
+#         daysCompletedRegex: '(?<=https:\/\/img\.shields\.io\/badge\/days%20completed-)[0-9]+(?=-red)'  # Regular expression that finds the content of the days completed badge iun your file.
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update README stars
